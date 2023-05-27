@@ -22,9 +22,9 @@
 	"author": "@aMediocreDad | Filip Ambrosius",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/amedia/foundry-db-packer/issues"
+		"url": "https://github.com/aMediocreDad/foundry-db-packer/issues"
 	},
-	"homepage": "https://github.com/amedia/foundry-db-packer#readme",
+	"homepage": "https://github.com/aMediocreDad/foundry-db-packer#readme",
 	"dependencies": {
 		"@actions/core": "1.10.0",
 		"@actions/exec": "1.1.1"
