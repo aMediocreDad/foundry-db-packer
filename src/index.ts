@@ -1,8 +1,7 @@
-import { setFailed, getInput, getBooleanInput, info } from "@actions/core";
-import { Package } from "@foundryvtt/foundryvtt-cli";
-import { existsSync, statSync } from "node:fs";
-import { readdir } from "node:fs/promises";
+import { setFailed, getInput, getBooleanInput } from "@actions/core";
+import { existsSync } from "node:fs";
 import { resolve } from "node:path";
+import { createDB, ensureClassicLevel } from "./utils.js";
 
 try {
 	const inputDirInput = getInput("inputdir") || "packs";
@@ -19,25 +18,14 @@ try {
 	const packNeDB = getBooleanInput("pack_nedb");
 	const packClassicLevel = getBooleanInput("pack_classiclevel");
 
-	readdir(inputdir)
-		.then(async (dir) => {
-			for (const subdir of dir) {
-				if (statSync(`${inputdir}/${subdir}`).isDirectory()) {
-					if (packClassicLevel)
-						await Package.packClassicLevel(packsdir, `${inputdir}/${subdir}`).then(() => {
-							info(`Packed ${subdir} as a classic LevelDB`);
-						});
-					if (packNeDB)
-						await Package.packNedb(packsdir, `${inputdir}/${subdir}`, subdir).then(() => {
-							info(`Packed ${subdir} as a NeDB`);
-						});
-				}
-			}
-		})
-		.catch((err) => {
-			console.error("Error reading input directory");
-			throw err;
-		});
+	await ensureClassicLevel();
+
+	await createDB({
+		inputdir,
+		packsdir,
+		packNeDB,
+		packClassicLevel,
+	});
 } catch (error) {
 	if (error instanceof Error) setFailed(error.message);
 	else setFailed("Unknown error");

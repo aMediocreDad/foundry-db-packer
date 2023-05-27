@@ -18,6 +18,7 @@ jobs:
             - run: npm ci
             - run: npm run build
             - run: npm run lint
+            - run: npm prune --production
             - run: npm test
             - name: Run action
               uses: ./
