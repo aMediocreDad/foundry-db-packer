@@ -1,0 +1,46 @@
+{
+	"name": "foundry-cli-action",
+	"private": true,
+	"version": "0.1.0",
+	"description": "Aids in packing Foundry VTT db files for release.",
+	"main": "dist/index.js",
+	"type": "module",
+	"scripts": {
+		"build": "node esbuild.js",
+		"lint": "tsc",
+		"release": "NODE_OPTIONS='--experimental-json-modules' node scripts/release.js",
+		"test": "vitest",
+		"version": "npm run build && npx changeset version"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/amediocredad/foundry-cli-action.git"
+	},
+	"keywords": [
+		"github action"
+	],
+	"author": "Amedia / @aMediocreDad",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/amedia/gha-template/issues"
+	},
+	"homepage": "https://github.com/amedia/gha-template#readme",
+	"dependencies": {
+		"@actions/core": "1.10.0",
+		"@actions/exec": "1.1.1",
+		"@actions/github": "5.1.1",
+		"@foundryvtt/foundryvtt-cli": "github:aMediocreDad/foundryvtt-cli#main"
+	},
+	"devDependencies": {
+		"@changesets/cli": "2.26.1",
+		"@types/node": "20.2.4",
+		"builtin-modules": "3.3.0",
+		"esbuild": "0.17.19",
+		"typescript": "5.0.4",
+		"vitest": "0.31.1"
+	},
+	"packageManager": "pnpm@8.5.1",
+	"volta": {
+		"node": "18.16.0"
+	}
+}

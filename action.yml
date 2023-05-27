@@ -1,0 +1,25 @@
+name: 'FoundryVTT Release DB Packer'
+description: 'Aids in packing FoundryVTT db files for release.'
+author: 'aMediocreDad / Filip Ambrosius'
+branding:
+  icon: 'code'
+  color: 'blue'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+inputs:
+  inputdir:
+    description: 'The directory containing the json files to pack.'
+    required: true
+  packsdir:
+    description: "The module/system's packs directory."
+    required: false
+    default: '/packs'
+  pack_classiclevel:
+    description: 'Whether to pack the classic level db files.'
+    required: false
+    default: 'true'
+  pack_nedb:
+    description: 'Whether to pack the nedb type db files as well.'
+    required: false
+    default: 'false'

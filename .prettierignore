@@ -1,0 +1,5 @@
+.eik/
+.changeset/
+CHANGELOG.md
+dist/
+node_modolues/

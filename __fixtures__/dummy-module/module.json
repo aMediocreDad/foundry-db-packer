@@ -1,0 +1,14 @@
+{
+	"id": "dummy",
+	"title": "Dummy",
+	"version": "0.1.0",
+	"packs": [
+		{
+			"name": "dummy",
+			"label": "Dummy",
+			"system": "worldbuilding",
+			"path": "./packs/dummy.db",
+			"type": "Item"
+		}
+	]
+}

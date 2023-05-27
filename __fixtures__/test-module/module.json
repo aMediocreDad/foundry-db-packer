@@ -1,0 +1,14 @@
+{
+	"id": "test",
+	"title": "Test",
+	"version": "0.1.0",
+	"packs": [
+		{
+			"name": "test",
+			"label": "Test",
+			"system": "worldbuilding",
+			"path": "./packs/test.db",
+			"type": "Item"
+		}
+	]
+}

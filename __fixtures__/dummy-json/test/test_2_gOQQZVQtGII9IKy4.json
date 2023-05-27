@@ -1,0 +1,31 @@
+{
+  "name": "Test 2",
+  "type": "base",
+  "folder": null,
+  "img": "icons/svg/item-bag.svg",
+  "system": {
+    "groups": {},
+    "attributes": {},
+    "quantity": null,
+    "weight": null
+  },
+  "effects": [],
+  "ownership": {
+    "default": 0,
+    "iCyBZJPuowWIkGSH": 3
+  },
+  "flags": {
+    "core": {}
+  },
+  "_stats": {
+    "systemId": "worldbuilding",
+    "systemVersion": "0.8.0",
+    "coreVersion": "11.299",
+    "createdTime": 1685056073079,
+    "modifiedTime": 1685056102010,
+    "lastModifiedBy": "iCyBZJPuowWIkGSH"
+  },
+  "_id": "gOQQZVQtGII9IKy4",
+  "sort": 0,
+  "_key": "!items!gOQQZVQtGII9IKy4"
+}
