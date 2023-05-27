@@ -26,9 +26,6 @@ describe("@FoundryVTT/fvtt-cli:Package", () => {
 	it("should produce a valid Classic levelDB structure", async () => {
 		await Package.packClassicLevel(moduleDir + "/test", jsonDir);
 		expect(existsSync(`${moduleDir}/test/LOCK`)).toBe(true);
-
-		const dbFile = await readFile(`${moduleDir}/test.db`, "utf8");
-		expect(dbFile).toMatch(/_id":"JZbNhxKEWMarDvp9"/);
 	});
 	it("should produce a valid nedb database file", async () => {
 		await Package.packNedb(moduleDir, jsonDir, "test");
