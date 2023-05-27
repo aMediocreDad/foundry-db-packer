@@ -1,0 +1,3 @@
+# This is already checked in
+# Running tests will generate updated structure which we don't want to check in
+dummy/
