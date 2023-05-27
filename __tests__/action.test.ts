@@ -2,9 +2,9 @@ import { describe, it, expect, beforeEach, afterAll } from "vitest";
 import { Package } from "@foundryvtt/foundryvtt-cli";
 import { readFile, rm } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { exec } from "@actions/exec";
 
 import * as utils from "../src/utils.js";
-import { exec } from "node:child_process";
 
 const jsonDir = new URL("../__fixtures__/dummy-json", import.meta.url).pathname;
 const moduleDir = new URL("../__fixtures__/test-module/packs", import.meta.url).pathname;
@@ -37,9 +37,7 @@ describe("@FoundryVTT/fvtt-cli:Package", () => {
 describe("Utils:ensureClassicLevel", () => {
 	it("should install classic-level", async () => {
 		await utils.ensureClassicLevel();
-		exec("npm ls -g classic-level", (err) => {
-			expect(err).toBe(null);
-		});
+		expect(await exec("npm", ["ls", "classic-level"])).toBe(0);
 	});
 });
 

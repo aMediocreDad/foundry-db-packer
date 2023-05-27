@@ -1,19 +1,26 @@
-import { info } from "@actions/core";
-import { exec } from "@actions/exec";
+import { error, info, exportVariable } from "@actions/core";
+import { exec, getExecOutput } from "@actions/exec";
 import { statSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { Package } from "@foundryvtt/foundryvtt-cli";
 
 export async function ensureClassicLevel() {
-	const isInstalled = await exec("npm", ["ls", "-g", "classic-level"])
+	// const { stdout: rootPath } = await getExecOutput("npm", ["root", "-g", "--quiet"], { silent: true }).catch(
+	// 	(err) => {
+	// 		error("Failed to get npm root path");
+	// 		throw err;
+	// 	}
+	// );
+
+	// exportVariable("NODE_PATH", rootPath);
+
+	const isInstalled = await exec("npm", ["ls", "classic-level"])
 		.then(() => true)
 		.catch(() => false);
 	if (isInstalled) return;
 
-	console.log("Installing classic-level");
-
-	await exec("npm", ["install", "-g", "classic-level"]).catch((err) => {
-		console.error("Error installing classic-level");
+	await exec("npm", ["install", "classic-level"]).catch((err) => {
+		error("Error installing classic-level");
 		throw err;
 	});
 }
@@ -39,7 +46,7 @@ export async function createDB({
 								info(`Packed ${subdir} as a classic LevelDB`);
 							})
 							.catch((err) => {
-								console.error(`Error packing ${subdir} as a classic LevelDB`);
+								error(`Error packing ${subdir} as a classic LevelDB`);
 								throw err;
 							});
 					if (packNeDB)
@@ -48,14 +55,14 @@ export async function createDB({
 								info(`Packed ${subdir} as a NeDB`);
 							})
 							.catch((err) => {
-								console.error(`Error packing ${subdir} as a NeDB`);
+								error(`Error packing ${subdir} as a NeDB`);
 								throw err;
 							});
 				}
 			}
 		})
 		.catch((err) => {
-			console.error("Error reading input directory");
+			error("Error reading input directory");
 			throw err;
 		});
 }
