@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, afterAll } from "vitest";
 import { Package } from "@foundryvtt/foundryvtt-cli";
 import { readFile, rm } from "node:fs/promises";
 import { existsSync } from "node:fs";
-import { exec } from "@actions/exec";
 
 import * as utils from "../src/utils.js";
 
@@ -34,13 +33,6 @@ describe("@FoundryVTT/fvtt-cli:Package", () => {
 	});
 });
 
-describe("Utils:ensureClassicLevel", () => {
-	it("should install classic-level", async () => {
-		await utils.ensureClassicLevel();
-		expect(await exec("npm", ["ls", "classic-level"])).toBe(0);
-	});
-});
-
 describe("Utils:createDB", () => {
 	beforeEach(async () => {
 		if (existsSync(`${moduleDir}/test`)) await rm(`${moduleDir}/test`, { recursive: true });
@@ -54,7 +46,6 @@ describe("Utils:createDB", () => {
 			packNeDB: false,
 			packClassicLevel: true,
 		});
-		debugger;
 		expect(existsSync(`${moduleDir}/test/LOCK`)).toBe(true);
 	});
 

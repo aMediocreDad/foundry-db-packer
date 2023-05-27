@@ -1,7 +1,7 @@
 import { setFailed, getInput, getBooleanInput } from "@actions/core";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
-import { createDB, ensureClassicLevel } from "./utils.js";
+import { createDB } from "./utils.js";
 
 try {
 	const inputDirInput = getInput("inputdir") || "packs";
@@ -17,8 +17,6 @@ try {
 
 	const packNeDB = getBooleanInput("pack_nedb");
 	const packClassicLevel = getBooleanInput("pack_classiclevel");
-
-	await ensureClassicLevel();
 
 	await createDB({
 		inputdir,

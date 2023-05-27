@@ -1,29 +1,7 @@
-import { error, info, exportVariable } from "@actions/core";
-import { exec, getExecOutput } from "@actions/exec";
+import { error, info } from "@actions/core";
 import { statSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import { Package } from "@foundryvtt/foundryvtt-cli";
-
-export async function ensureClassicLevel() {
-	// const { stdout: rootPath } = await getExecOutput("npm", ["root", "-g", "--quiet"], { silent: true }).catch(
-	// 	(err) => {
-	// 		error("Failed to get npm root path");
-	// 		throw err;
-	// 	}
-	// );
-
-	// exportVariable("NODE_PATH", rootPath);
-
-	const isInstalled = await exec("npm", ["ls", "classic-level"])
-		.then(() => true)
-		.catch(() => false);
-	if (isInstalled) return;
-
-	await exec("npm", ["install", "classic-level"]).catch((err) => {
-		error("Error installing classic-level");
-		throw err;
-	});
-}
 
 export async function createDB({
 	inputdir,
