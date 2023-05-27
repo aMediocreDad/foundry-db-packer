@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, afterAll } from "vitest";
-import { Package } from "@foundryvtt/foundryvtt-cli";
 import { readFile, rm } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { exec } from "@actions/exec";
 
 import * as utils from "../src/utils.js";
+import { Package } from "../src/package.js";
 
 const jsonDir = new URL("../__fixtures__/dummy-json", import.meta.url).pathname;
 const moduleDir = new URL("../__fixtures__/test-module/packs", import.meta.url).pathname;
@@ -13,7 +14,7 @@ afterAll(async () => {
 	if (existsSync(`${moduleDir}/test.db`)) await rm(`${moduleDir}/test.db`);
 });
 
-describe("@FoundryVTT/fvtt-cli:Package", () => {
+describe("Package", () => {
 	beforeEach(async () => {
 		if (existsSync(`${moduleDir}/test`)) await rm(`${moduleDir}/test`, { recursive: true });
 		if (existsSync(`${moduleDir}/test.db`)) await rm(`${moduleDir}/test.db`);
@@ -30,6 +31,13 @@ describe("@FoundryVTT/fvtt-cli:Package", () => {
 
 		const dbFile = await readFile(`${moduleDir}/test.db`, "utf8");
 		expect(dbFile).toMatch(/_id":"JZbNhxKEWMarDvp9"/);
+	});
+});
+
+describe("Utils:ensureClassicLevel", () => {
+	it("should ensure classic-level is installed", async () => {
+		await utils.ensureClassicLevel();
+		expect(await exec("npm", ["ls", "classic-level"])).toBe(0);
 	});
 });
 

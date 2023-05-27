@@ -13,16 +13,16 @@ jobs:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
               with:
-                node-version: 18
+                node-version: 16
                 cache: "npm"
             - run: npm ci
             - run: npm run build
             - run: npm run lint
             - run: npm test
-            - run: npm prune --production
+            - run: npm prune --omit=dev
             - name: Run action
               uses: ./
               with:
                 inputdir: "__fixtures__/dummy-json"
-                packsdir: "__test-files__"
+                packsdir: "dist"
                 pack_nedb: true

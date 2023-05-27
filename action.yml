@@ -5,12 +5,8 @@ branding:
   icon: 'code'
   color: 'blue'
 runs:
-  using: 'composite'
-  steps:
-    - run: 'npm install classic-level'
-      shell: 'bash'
-    - run: 'node dist/index.js'
-      shell: 'bash'
+  using: 'node16'
+  main: 'dist/index.js'
 inputs:
   inputdir:
     description: 'The directory containing the json files to pack.'

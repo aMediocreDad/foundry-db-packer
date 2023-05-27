@@ -1,7 +1,28 @@
 import { error, info } from "@actions/core";
+import { exec, getExecOutput } from "@actions/exec";
 import { statSync } from "node:fs";
 import { readdir } from "node:fs/promises";
-import { Package } from "@foundryvtt/foundryvtt-cli";
+
+import { Package } from "./package.js";
+
+export async function ensureClassicLevel() {
+	const isInstalled = await getExecOutput("npm", ["ls", "classic-level"], {
+		silent: true,
+	})
+		.then((out) => {
+			if (out.exitCode !== 0) return false;
+			info(`Found classic-level: ${out.stdout}`);
+			return true;
+		})
+		.catch(() => false);
+	if (isInstalled) return;
+
+	info("Installing classic-level");
+	await exec("npm", ["install", "classic-level"]).catch((err) => {
+		error("Error installing classic-level");
+		throw err;
+	});
+}
 
 export async function createDB({
 	inputdir,
