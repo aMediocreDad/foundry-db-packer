@@ -1,5 +1,5 @@
 {
-	"name": "foundry-cli-action",
+	"name": "foundry-db-packer",
 	"private": true,
 	"version": "0.2.0",
 	"description": "Aids in packing Foundry VTT db files for release.",
@@ -14,17 +14,17 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/amediocredad/foundry-cli-action.git"
+		"url": "git+https://github.com/amediocredad/foundry-db-packer.git"
 	},
 	"keywords": [
 		"github action"
 	],
-	"author": "Amedia / @aMediocreDad",
+	"author": "@aMediocreDad | Filip Ambrosius",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/amedia/gha-template/issues"
+		"url": "https://github.com/amedia/foundry-db-packer/issues"
 	},
-	"homepage": "https://github.com/amedia/gha-template#readme",
+	"homepage": "https://github.com/amedia/foundry-db-packer#readme",
 	"dependencies": {
 		"@actions/core": "1.10.0",
 		"@actions/exec": "1.1.1"

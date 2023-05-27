@@ -1,6 +1,6 @@
 name: 'FoundryVTT Release DB Packer'
 description: 'Aids in packing FoundryVTT db files for release.'
-author: 'aMediocreDad / Filip Ambrosius'
+author: '@aMediocreDad / Filip Ambrosius'
 branding:
   icon: 'code'
   color: 'blue'

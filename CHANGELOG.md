@@ -1,4 +1,4 @@
-# gha-template
+# Changelog
 
 ## 0.2.0
 
