@@ -5,7 +5,7 @@ branding:
   icon: 'code'
   color: 'blue'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
 inputs:
   inputdir:
@@ -14,7 +14,7 @@ inputs:
   packsdir:
     description: "The module/system's packs directory."
     required: false
-    default: '/packs'
+    default: 'packs/'
   pack_classiclevel:
     description: 'Whether to pack the classic level db files.'
     required: false
