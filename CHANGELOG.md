@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+### Patch Changes
+
+- 78ef14e: Minor fixes to input requirement, bump node version and update docs
+
 ## 0.2.0
 
 ### Minor Changes
