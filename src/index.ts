@@ -1,16 +1,16 @@
-import { setFailed, getInput, getBooleanInput } from "@actions/core";
+import { getBooleanInput, getInput, setFailed } from "@actions/core";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { createDB, ensureClassicLevel } from "./utils.js";
 
 try {
-	const inputDirInput = getInput("inputdir") || "packs";
+	const inputDirInput = getInput("inputdir");
 	const inputdir = resolve(process.cwd(), inputDirInput);
+	if (!inputDirInput) throw new Error("No packs directory specified");
 
-	const packsInput = getInput("packsdir");
-	if (!packsInput) throw new Error("No packs directory specified");
+	const packsInput = getInput("packsdir") || "packs";
 
-	const packsdir = resolve(process.cwd(), packsInput || "packs");
+	const packsdir = resolve(process.cwd(), packsInput);
 
 	if (!existsSync(inputdir)) throw new Error(`Input directory ${inputdir} does not exist`);
 	if (!existsSync(packsdir)) throw new Error(`Packs directory ${packsdir} does not exist`);
