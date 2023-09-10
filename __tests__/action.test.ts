@@ -39,7 +39,7 @@ describe("Package", () => {
 describe("Utils:ensureClassicLevel", () => {
 	it("should ensure classic-level is installed", async () => {
 		await utils.ensureClassicLevel();
-		expect(await exec("npm", ["ls", "classic-level"])).toBe(0);
+		expect(await exec("npm", ["ls", "-g", "classic-level"])).toBe(0);
 	});
 });
 
@@ -55,6 +55,7 @@ describe("Utils:createDB", () => {
 			packsdir: moduleDir,
 			packNeDB: false,
 			packClassicLevel: true,
+			ClassicLevel: (await import((await utils.ensureClassicLevel()) + "/index.js")).ClassicLevel,
 		});
 		expect(existsSync(`${moduleDir}/test/LOCK`)).toBe(true);
 	});

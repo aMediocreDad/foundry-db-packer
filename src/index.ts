@@ -5,14 +5,13 @@ import { createDB, ensureClassicLevel } from "./utils.js";
 
 try {
 	const inputDirInput = getInput("inputdir");
-	const inputdir = resolve(process.cwd(), inputDirInput);
 	if (!inputDirInput) throw new Error("No packs directory specified");
 
-	const packsInput = getInput("packsdir") || "packs";
-
-	const packsdir = resolve(process.cwd(), packsInput);
-
+	const inputdir = resolve(process.cwd(), inputDirInput);
 	if (!existsSync(inputdir)) throw new Error(`Input directory ${inputdir} does not exist`);
+
+	const packsInput = getInput("packsdir") || "packs";
+	const packsdir = resolve(process.cwd(), packsInput);
 	if (!existsSync(packsdir)) throw new Error(`Packs directory ${packsdir} does not exist`);
 
 	const packNeDB = getBooleanInput("pack_nedb");

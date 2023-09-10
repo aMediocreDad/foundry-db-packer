@@ -5,7 +5,7 @@ import { readdir } from "node:fs/promises";
 
 import { Package } from "./package.js";
 
-export async function ensureClassicLevel(tried = false) {
+export async function ensureClassicLevel(tried = false): Promise<string> {
 	const installedPath = await getExecOutput("npm", ["ls", "-g", "--parseable", "classic-level"], {
 		silent: true,
 	})
