@@ -10718,7 +10718,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     (0, import_core.info)("Attempting to install classic-level");
     if (tries > 1)
       (0, import_core.info)(`Attempt number ${tries}`);
-    await (0, import_exec.exec)("npm", ["install", "classic-level"]).catch((err) => {
+    await (0, import_exec.exec)("npm", ["install", "-g", "classic-level"]).catch((err) => {
       (0, import_core.error)("Error installing classic-level");
       throw err;
     });
@@ -10778,8 +10778,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
         throw new Error(`Packs directory ${packsdir} does not exist`);
       const packNeDB = (0, import_core2.getBooleanInput)("pack_nedb");
       const packClassicLevel = (0, import_core2.getBooleanInput)("pack_classiclevel");
-      if (packClassicLevel)
-        await ensureClassicLevel();
+      await ensureClassicLevel();
       await createDB({
         inputdir,
         packsdir,

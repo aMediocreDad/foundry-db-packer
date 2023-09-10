@@ -19,7 +19,7 @@ async function main() {
 		const packNeDB = getBooleanInput("pack_nedb");
 		const packClassicLevel = getBooleanInput("pack_classiclevel");
 
-		if (packClassicLevel) await ensureClassicLevel();
+		await ensureClassicLevel();
 
 		await createDB({
 			inputdir,

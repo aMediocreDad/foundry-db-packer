@@ -4,7 +4,7 @@ import { statSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 
 export async function ensureClassicLevel(tries = 1) {
-	const isInstalled = await getExecOutput("npm", ["ls", "classic-level"], {
+	const isInstalled = await getExecOutput("npm", ["ls", "-g", "classic-level"], {
 		silent: true,
 	})
 		.then((out) => {
@@ -19,7 +19,7 @@ export async function ensureClassicLevel(tries = 1) {
 
 	info("Attempting to install classic-level");
 	if (tries > 1) info(`Attempt number ${tries}`);
-	await exec("npm", ["install", "classic-level"]).catch((err) => {
+	await exec("npm", ["install", "-g", "classic-level"]).catch((err) => {
 		error("Error installing classic-level");
 		throw err;
 	});
