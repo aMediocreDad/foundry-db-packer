@@ -1608,10 +1608,10 @@ import { createRequire as yix6bKft } from 'module';const require = yix6bKft(impo
           return __awaiter(this, void 0, void 0, function* () {
             const httpclient = OidcClient.createHttpClient();
             const res = yield httpclient.getJson(id_token_url).catch((error2) => {
-              throw new Error(`Failed to get ID Token. 
- 
+              throw new Error(`Failed to get ID Token.
+
         Error Code : ${error2.statusCode}
- 
+
         Error Message: ${error2.result.message}`);
             });
             const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
@@ -6649,7 +6649,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * Sort the queried documents.
          *
          * See: https://github.com/louischatriot/nedb#sorting-and-paginating
-         * 
+         *
          * @return {Cursor}
          */
         sort(...args) {
@@ -6660,7 +6660,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * Skip some of the queried documents.
          *
          * See: https://github.com/louischatriot/nedb#sorting-and-paginating
-         * 
+         *
          * @return {Cursor}
          */
         skip(...args) {
@@ -6671,7 +6671,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * Limit the queried documents.
          *
          * See: https://github.com/louischatriot/nedb#sorting-and-paginating
-         * 
+         *
          * @return {Cursor}
          */
         limit(...args) {
@@ -6680,9 +6680,9 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
         }
         /**
          * Set the document projection.
-         * 
+         *
          * See: https://github.com/louischatriot/nedb#projections
-         * 
+         *
          * @return {Cursor}
          */
         project(...args) {
@@ -6708,7 +6708,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          *  .sort(...)
          *  .limit(...)
          *  .exec()
-         * 
+         *
          * @return {Promise<Object[]>}
          */
         async exec() {
@@ -6724,10 +6724,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
         }
         /**
          * Execute the cursor and set promise callbacks.
-         * 
+         *
          * For more information visit:
          * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then
-         * 
+         *
          * @param  {Function} fulfilled
          * @param  {Function} [rejected]
          * @return {Promise}
@@ -6740,7 +6740,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          *
          * For more information visit:
          * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch
-         * 
+         *
          * @param  {Function} rejected
          * @return {Promise}
          */
@@ -6771,13 +6771,13 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * The file will only be created once an operation
          * is issued against the datastore or if you call
          * the `load` instance method explicitly.
-         * 
+         *
          * The path (if specified) will be relative to `process.cwd()`
          * (unless an absolute path was passed).
          *
          * For more information visit:
          * https://github.com/louischatriot/nedb#creatingloading-a-database
-         * 
+         *
          * @param  {string|Object} [pathOrOptions]
          * @return {Proxy<static>}
          */
@@ -6799,14 +6799,14 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * the original datastore's properties such as `datastore.persistence`.
          *
          * Create a Datastore instance.
-         * 
+         *
          * Note that the datastore will be created
          * relative to `process.cwd()`
          * (unless an absolute path was passed).
-         * 
+         *
          * It's basically the same as the original:
          * https://github.com/louischatriot/nedb#creatingloading-a-database
-         * 
+         *
          * @param  {string|Object} [pathOrOptions]
          * @return {static}
          */
@@ -6840,7 +6840,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * automatically be called and awaited on any
          * operation issued against the datastore
          * (i.e.: `find`, `findOne`, etc.).
-         * 
+         *
          * @return {Promise<undefined>}
          */
         load() {
@@ -6869,7 +6869,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * @example
          * // in an async function
          * await datastore.find({ ... }).sort({ ... })
-         * 
+         *
          * @param  {Object} [query]
          * @param  {Object} [projection]
          * @return {Cursor}
@@ -6892,7 +6892,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * @example
          * // in an async function
          * await datastore.findOne({ ... }).sort({ ... })
-         * 
+         *
          * @param  {Object} [query]
          * @param  {Object} [projection]
          * @return {Cursor}
@@ -6908,7 +6908,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          *
          * It's basically the same as the original:
          * https://github.com/louischatriot/nedb#inserting-documents
-         * 
+         *
          * @param  {Object|Object[]} docs
          * @return {Promise<Object|Object[]>}
          */
@@ -6928,7 +6928,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          *
          * This is just an alias for `insert` with object destructuring
          * to ensure a single document.
-         * 
+         *
          * @param  {Object} doc
          * @return {Promise<Object>}
          */
@@ -6940,7 +6940,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          *
          * This is just an alias for `insert` with array destructuring
          * to ensure multiple documents.
-         * 
+         *
          * @param  {Object[]} docs
          * @return {Promise<Object[]>}
          */
@@ -6957,7 +6957,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * the returned promise will resolve with
          * an object (if `options.multi` is `false`) or
          * with an array of objects.
-         * 
+         *
          * @param  {Object} query
          * @param  {Object} update
          * @param  {Object} [options]
@@ -6979,11 +6979,11 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * Update a single document that matches the specified `query`.
          *
          * This is just an alias for `update` with `options.multi` set to `false`.
-         * 
+         *
          * @param  {Object} query
          * @param  {Object} update
          * @param  {Object} [options]
-         * 
+         *
          * @return {Promise<number|Object>}
          */
         updateOne(query, update, options = {}) {
@@ -6997,7 +6997,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * @param  {Object} query
          * @param  {Object} update
          * @param  {Object} [options]
-         * 
+         *
          * @return {Promise<number|Object[]>}
          */
         updateMany(query, update, options = {}) {
@@ -7008,7 +7008,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          *
          * It's basically the same as the original:
          * https://github.com/louischatriot/nedb#removing-documents
-         * 
+         *
          * @param  {Object} [query]
          * @param  {Object} [options]
          * @return {Promise<number>}
@@ -7028,10 +7028,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * Remove the first document that matches the specified `query`.
          *
          * This is just an alias for `remove` with `options.multi` set to `false`.
-         * 
+         *
          * @param  {Object} [query]
          * @param  {Object} [options]
-         * 
+         *
          * @return {Promise<number>}
          */
         removeOne(query, options = {}) {
@@ -7041,10 +7041,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * Remove all documents that match the specified `query`.
          *
          * This is just an alias for `remove` with `options.multi` set to `true`.
-         * 
+         *
          * @param  {Object} [query]
          * @param  {Object} [options]
-         * 
+         *
          * @return {Promise<number>}
          */
         removeMany(query, options = {}) {
@@ -7054,10 +7054,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * Remove the first document that matches the specified `query`.
          *
          * This is just an alias for `removeOne`.
-         * 
+         *
          * @param  {Object} [query]
          * @param  {Object} [options]
-         * 
+         *
          * @return {Promise<number>}
          */
         deleteOne(query, options) {
@@ -7067,10 +7067,10 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * Remove all documents that match the specified `query`.
          *
          * This is just an alias for `removeMany`.
-         * 
+         *
          * @param  {Object} [query]
          * @param  {Object} [options]
-         * 
+         *
          * @return {Promise<number>}
          */
         deleteMany(query, options) {
@@ -7090,7 +7090,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
          * await datastore.count({ ... })
          * // or
          * await datastore.count({ ... }).sort(...).limit(...)
-         * 
+         *
          * @param  {Object} [query]
          * @return {Cursor}
          */
@@ -7099,7 +7099,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
         }
         /**
          * https://github.com/louischatriot/nedb#indexing
-         * 
+         *
          * @param  {Object} options
          * @return {Promise<undefined>}
          */
@@ -7115,7 +7115,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
         }
         /**
          * https://github.com/louischatriot/nedb#indexing
-         * 
+         *
          * @param  {string} field
          * @return {Promise<undefined>}
          */
@@ -7131,11 +7131,11 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
         }
         /**
          * Broadcasts operation success messages.
-         * 
+         *
          * @param  {string} op
          * @param  {*}      result
          * @param  {...*}   args
-         * 
+         *
          * @return {undefined}
          * @private
          */
@@ -7145,11 +7145,11 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
         }
         /**
          * Broadcasts operation error messages.
-         * 
+         *
          * @param  {string} op
          * @param  {Error}  error
          * @param  {...*}   args
-         * 
+         *
          * @return {undefined}
          * @private
          */
@@ -10618,7 +10618,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       import_nedb_promises = __toESM(require_nedb_promises(), 1);
       init_source();
       init_js_yaml();
-      import_classic_level = __require("classic-level");
+      import_classic_level = __require("node_modules/classic-level");
       HIERARCHY = {
         actors: {
           items: [],
@@ -10703,7 +10703,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
   var import_node_fs = __require("node:fs");
   var import_promises = __require("node:fs/promises");
   async function ensureClassicLevel(tries = 1) {
-    const isInstalled = await (0, import_exec.getExecOutput)("npm", ["ls", "classic-level"], {
+    const isInstalled = await (0, import_exec.getExecOutput)("npm", ["ls", "-g", "classic-level"], {
       silent: true
     }).then((out) => {
       if (out.exitCode !== 0)
