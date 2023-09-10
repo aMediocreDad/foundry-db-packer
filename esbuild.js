@@ -11,6 +11,6 @@ build({
 	platform: "node",
 	target: "node20",
 	external: ["node:path", "node:fs", "node:fs/promises", "classic-level", ...nodeBuiltins],
-	format: "iife",
+	format: "esm",
 	logLevel: "info",
 }).catch(() => process.exit(1));

@@ -1,4 +1,3 @@
-import { exec } from "@actions/exec";
 import { existsSync } from "node:fs";
 import { rm } from "node:fs/promises";
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
@@ -11,13 +10,6 @@ const moduleDir = new URL("../__fixtures__/test-module/packs", import.meta.url).
 afterAll(async () => {
 	if (existsSync(`${moduleDir}/test`)) await rm(`${moduleDir}/test`, { recursive: true });
 	if (existsSync(`${moduleDir}/test.db`)) await rm(`${moduleDir}/test.db`);
-});
-
-describe("Utils:ensureClassicLevel", () => {
-	it("should ensure classic-level is installed", async () => {
-		await utils.ensureClassicLevel();
-		expect(await exec("npm", ["ls", "classic-level"])).toBe(0);
-	});
 });
 
 describe("Utils:createDB", () => {
