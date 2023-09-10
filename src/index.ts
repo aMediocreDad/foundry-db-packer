@@ -18,13 +18,19 @@ try {
 	const packNeDB = getBooleanInput("pack_nedb");
 	const packClassicLevel = getBooleanInput("pack_classiclevel");
 
-	await ensureClassicLevel();
+	let ClassicLevel: typeof import("classic-level").ClassicLevel | undefined;
+	if (packClassicLevel) {
+		const classicLevelPath = await ensureClassicLevel();
+		const module = await import(classicLevelPath + "/index.js");
+		ClassicLevel = module.ClassicLevel;
+	}
 
 	await createDB({
 		inputdir,
 		packsdir,
 		packNeDB,
 		packClassicLevel,
+		ClassicLevel,
 	});
 } catch (error) {
 	if (error instanceof Error) setFailed(error.message);
