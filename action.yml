@@ -16,10 +16,10 @@ inputs:
     required: false
     default: 'packs/'
   pack_classiclevel:
-    description: 'Whether to pack the classic level db files.'
+    description: 'Whether to pack as classiclevels type db files.'
     required: false
     default: 'true'
   pack_nedb:
-    description: 'Whether to pack the nedb type db files as well.'
+    description: 'Whether to pack as nedb type db files.'
     required: false
     default: 'false'

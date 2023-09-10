@@ -1,28 +1,6 @@
 import { error, info } from "@actions/core";
-import { exec, getExecOutput } from "@actions/exec";
 import { statSync } from "node:fs";
 import { readdir } from "node:fs/promises";
-
-import { Package } from "./package.js";
-
-export async function ensureClassicLevel() {
-	const isInstalled = await getExecOutput("npm", ["ls", "classic-level"], {
-		silent: true,
-	})
-		.then((out) => {
-			if (out.exitCode !== 0) return false;
-			info(`Found classic-level: ${out.stdout}`);
-			return true;
-		})
-		.catch(() => false);
-	if (isInstalled) return;
-
-	info("Installing classic-level");
-	await exec("npm", ["install", "classic-level"]).catch((err) => {
-		error("Error installing classic-level");
-		throw err;
-	});
-}
 
 export async function createDB({
 	inputdir,
@@ -35,12 +13,16 @@ export async function createDB({
 	packNeDB: boolean;
 	packClassicLevel: boolean;
 }) {
+	const { compilePack } = await import("@foundryvtt/foundryvtt-cli");
 	return readdir(inputdir)
 		.then(async (dir) => {
 			for (const subdir of dir) {
 				if (statSync(`${inputdir}/${subdir}`).isDirectory()) {
 					if (packClassicLevel)
-						await Package.packClassicLevel(`${packsdir}/${subdir}`, `${inputdir}/${subdir}`)
+						await compilePack(`${inputdir}/${subdir}`, `${packsdir}/${subdir}`, {
+							log: true,
+							recursive: true,
+						})
 							.then(() => {
 								info(`Packed ${subdir} as a classic LevelDB`);
 							})
@@ -49,7 +31,11 @@ export async function createDB({
 								throw err;
 							});
 					if (packNeDB)
-						await Package.packNedb(packsdir, `${inputdir}/${subdir}`, subdir)
+						await compilePack(`${inputdir}/${subdir}`, `${packsdir}/${subdir}.db`, {
+							log: true,
+							recursive: true,
+							nedb: true,
+						})
 							.then(() => {
 								info(`Packed ${subdir} as a NeDB`);
 							})

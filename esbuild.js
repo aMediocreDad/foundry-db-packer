@@ -1,5 +1,5 @@
-import { build } from "esbuild";
 import nodeBuiltins from "builtin-modules";
+import { build } from "esbuild";
 
 build({
 	banner: {
@@ -9,7 +9,7 @@ build({
 	bundle: true,
 	outfile: "dist/index.js",
 	platform: "node",
-	target: "node16",
+	target: "node20",
 	external: ["node:path", "node:fs", "node:fs/promises", "classic-level", ...nodeBuiltins],
 	format: "esm",
 	logLevel: "info",
