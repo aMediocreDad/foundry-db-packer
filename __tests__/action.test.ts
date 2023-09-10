@@ -1,10 +1,10 @@
-import { describe, it, expect, beforeEach, afterAll } from "vitest";
-import { readFile, rm } from "node:fs/promises";
-import { existsSync } from "node:fs";
 import { exec } from "@actions/exec";
+import { existsSync } from "node:fs";
+import { readFile, rm } from "node:fs/promises";
+import { afterAll, beforeEach, describe, expect, it } from "vitest";
 
-import * as utils from "../src/utils.js";
 import { Package } from "../src/package.js";
+import * as utils from "../src/utils.js";
 
 const jsonDir = new URL("../__fixtures__/dummy-json", import.meta.url).pathname;
 const moduleDir = new URL("../__fixtures__/test-module/packs", import.meta.url).pathname;
@@ -21,7 +21,9 @@ describe("Package", () => {
 	});
 
 	it("should produce a valid Classic levelDB structure", async () => {
-		await Package.packClassicLevel(moduleDir + "/test", jsonDir + "/test");
+		const module = await import((await utils.ensureClassicLevel()) + "/index.js");
+		const ClassicLevel = module.ClassicLevel;
+		await Package.packClassicLevel(moduleDir + "/test", jsonDir + "/test", ClassicLevel);
 		expect(existsSync(`${moduleDir}/test/LOCK`)).toBe(true);
 	});
 
@@ -37,7 +39,7 @@ describe("Package", () => {
 describe("Utils:ensureClassicLevel", () => {
 	it("should ensure classic-level is installed", async () => {
 		await utils.ensureClassicLevel();
-		expect(await exec("npm", ["ls", "classic-level"])).toBe(0);
+		expect(await exec("npm", ["ls", "-g", "classic-level"])).toBe(0);
 	});
 });
 
@@ -53,6 +55,7 @@ describe("Utils:createDB", () => {
 			packsdir: moduleDir,
 			packNeDB: false,
 			packClassicLevel: true,
+			ClassicLevel: (await import((await utils.ensureClassicLevel()) + "/index.js")).ClassicLevel,
 		});
 		expect(existsSync(`${moduleDir}/test/LOCK`)).toBe(true);
 	});

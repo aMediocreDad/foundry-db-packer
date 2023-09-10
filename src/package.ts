@@ -1,8 +1,8 @@
-import NeDB from "nedb-promises";
-import yaml from "js-yaml";
 import chalk from "chalk";
-import path from "node:path";
+import yaml from "js-yaml";
+import NeDB from "nedb-promises";
 import fs from "node:fs";
+import path from "node:path";
 
 interface DB<T> extends NeDB<T> {
 	compactDatafile(callback: (err: Error | null) => void): void;
@@ -57,13 +57,11 @@ export class Package {
 		});
 	}
 
-	static async packClassicLevel(packDir: string, inputDir: string): Promise<void> {
-		const module = await import("classic-level").catch((err) => {
-			console.error("Failed to load classic-level, is it installed?");
-			throw err;
-		});
-
-		const { ClassicLevel } = module;
+	static async packClassicLevel(
+		packDir: string,
+		inputDir: string,
+		ClassicLevel: typeof import("classic-level").ClassicLevel
+	): Promise<void> {
 		// Load the directory as a ClassicLevel db
 		const db = new ClassicLevel(packDir, { keyEncoding: "utf8", valueEncoding: "json" });
 		const batch = db.batch();
