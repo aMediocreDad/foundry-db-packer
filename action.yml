@@ -15,6 +15,10 @@ inputs:
     description: "The module/system's packs directory."
     required: false
     default: 'packs/'
+  pack_classiclevel:
+    description: 'Whether to pack as classiclevels type db files.'
+    required: false
+    default: 'true'
   pack_nedb:
     description: 'Whether to pack as nedb type db files.'
     required: false
