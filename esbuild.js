@@ -10,7 +10,7 @@ build({
 	outfile: "dist/index.js",
 	platform: "node",
 	target: "node20",
-	external: ["node:path", "node:fs", "node:fs/promises", ...nodeBuiltins],
-	format: "esm",
+	external: ["node:path", "node:fs", "node:fs/promises", "classic-level", ...nodeBuiltins],
+	format: "iife",
 	logLevel: "info",
 }).catch(() => process.exit(1));
