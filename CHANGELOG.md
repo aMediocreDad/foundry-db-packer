@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+### Patch Changes
+
+- f749c0a: Makes sure the package can find the classic-level external binary even when run in an isolated context
+
 ## 0.2.1
 
 ### Patch Changes
