@@ -20,7 +20,7 @@ export async function ensureClassicLevel(tried = false): Promise<string> {
 	if (tried) throw new Error("Failed to install classic-level");
 
 	info("Installing classic-level");
-	await exec("npm", ["install", "-g", "classic-level@1.3.0"]).catch((err) => {
+	await exec("npm", ["install", "-g", "classic-level@2.0.0"]).catch((err) => {
 		error("Error installing classic-level");
 		throw err;
 	});
@@ -45,8 +45,8 @@ export async function createDB({
 		.then(async (dir) => {
 			for (const subdir of dir) {
 				if (statSync(`${inputdir}/${subdir}`).isDirectory()) {
-					if (packClassicLevel)
-						await Package.packClassicLevel(`${packsdir}/${subdir}`, `${inputdir}/${subdir}`, ClassicLevel!)
+					if (packClassicLevel && ClassicLevel)
+						await Package.packClassicLevel(`${packsdir}/${subdir}`, `${inputdir}/${subdir}`, ClassicLevel)
 							.then(() => {
 								info(`Packed ${subdir} as a classic LevelDB`);
 							})
@@ -54,6 +54,7 @@ export async function createDB({
 								error(`Error packing ${subdir} as a classic LevelDB`);
 								throw err;
 							});
+					else if (packClassicLevel) error("Told to pack classic level, but ClassicLevel not provided");
 					if (packNeDB)
 						await Package.packNedb(packsdir, `${inputdir}/${subdir}`, subdir)
 							.then(() => {

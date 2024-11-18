@@ -20,7 +20,7 @@ try {
 	let ClassicLevel: typeof import("classic-level").ClassicLevel | undefined;
 	if (packClassicLevel) {
 		const classicLevelPath = await ensureClassicLevel();
-		const module = await import(classicLevelPath + "/index.js");
+		const module = await import(`${classicLevelPath}/index.js`);
 		ClassicLevel = module.ClassicLevel;
 	}
 

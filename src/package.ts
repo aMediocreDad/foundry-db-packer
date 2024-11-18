@@ -9,6 +9,7 @@ interface DB<T> extends NeDB<T> {
 	stopAutocompaction(): void;
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: Yes we get to do this
 export class Package {
 	static normalizePath(pathToNormalize: string): string {
 		return path.normalize(pathToNormalize).split(path.sep).join(path.posix.sep);
@@ -16,7 +17,7 @@ export class Package {
 
 	static async packNedb(packDir: string, inputDir: string, compendiumName: string): Promise<void> {
 		// Load the directory as a Nedb
-		const db = NeDB.create(`${packDir}/${compendiumName}.db`) as DB<Record<string, any>>;
+		const db = NeDB.create(`${packDir}/${compendiumName}.db`) as DB<Record<string, unknown>>;
 
 		// Iterate over all YAML files in the input directory, writing them to the db
 		const files = fs.readdirSync(inputDir);
@@ -29,7 +30,7 @@ export class Package {
 			// If the key starts with !folders, we should skip packing it as nedb doesn't support folders
 			if (key.startsWith("!folders")) continue;
 
-			delete value._key;
+			value._key = undefined;
 			seenKeys.add(value._id);
 
 			// If key already exists, update it
@@ -64,6 +65,7 @@ export class Package {
 	): Promise<void> {
 		// Load the directory as a ClassicLevel db
 		const db = new ClassicLevel(packDir, { keyEncoding: "utf8", valueEncoding: "json" });
+		await db.open();
 		const batch = db.batch();
 
 		// Iterate over all YAML files in the input directory, writing them to the db
@@ -73,7 +75,7 @@ export class Package {
 			const fileContents = fs.readFileSync(path.join(inputDir, file), "utf8");
 			const value = file.endsWith(".yml") ? yaml.load(fileContents) : JSON.parse(fileContents);
 			const key = value._key;
-			delete value._key;
+			value._key = undefined;
 			seenKeys.add(key);
 			batch.put(key, value);
 			console.log(`Packed ${chalk.blue(value._id)}${chalk.blue(value.name ? ` (${value.name})` : "")}`);

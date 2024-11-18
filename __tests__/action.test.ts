@@ -21,14 +21,14 @@ describe("Package", () => {
 	});
 
 	it("should produce a valid Classic levelDB structure", async () => {
-		const module = await import((await utils.ensureClassicLevel()) + "/index.js");
+		const module = await import(`${await utils.ensureClassicLevel()}/index.js`);
 		const ClassicLevel = module.ClassicLevel;
-		await Package.packClassicLevel(moduleDir + "/test", jsonDir + "/test", ClassicLevel);
+		await Package.packClassicLevel(`${moduleDir}/test`, `${jsonDir}/test`, ClassicLevel);
 		expect(existsSync(`${moduleDir}/test/LOCK`)).toBe(true);
 	});
 
 	it("should produce a valid nedb database file", async () => {
-		await Package.packNedb(moduleDir, jsonDir + "/test", "test");
+		await Package.packNedb(moduleDir, `${jsonDir}/test`, "test");
 		expect(existsSync(`${moduleDir}/test.db`)).toBe(true);
 
 		const dbFile = await readFile(`${moduleDir}/test.db`, "utf8");
@@ -55,7 +55,7 @@ describe("Utils:createDB", () => {
 			packsdir: moduleDir,
 			packNeDB: false,
 			packClassicLevel: true,
-			ClassicLevel: (await import((await utils.ensureClassicLevel()) + "/index.js")).ClassicLevel,
+			ClassicLevel: (await import(`${await utils.ensureClassicLevel()}/index.js`)).ClassicLevel,
 		});
 		expect(existsSync(`${moduleDir}/test/LOCK`)).toBe(true);
 	});
