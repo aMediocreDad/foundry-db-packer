@@ -1,74 +1,37 @@
+import path from "node:path";
 import { error, info } from "@actions/core";
 import { exec, getExecOutput } from "@actions/exec";
-import { statSync } from "node:fs";
-import { readdir } from "node:fs/promises";
+// @ts-expect-error - No types available
+import { compilePack } from "@foundryvtt/foundryvtt-cli";
 
-import { Package } from "./package.js";
+
+export function normalizePath(pathToNormalize: string): string {
+	return path.normalize(pathToNormalize).split(path.sep).join(path.posix.sep);
+}
 
 export async function ensureClassicLevel(tried = false): Promise<string> {
-	const installedPath = await getExecOutput("npm", ["ls", "-g", "--parseable", "classic-level"], {
+	const installedPath = await getExecOutput("npm", ["ls", "-g", "--parseable", "@foundryvtt/foundryvtt-cli"], {
 		silent: true,
 	})
 		.then((out) => {
 			if (out.exitCode !== 0) return "";
 			if (out.stdout.trim() === "") return "";
-			info(`Found classic-level: ${out.stdout}`);
+			info(`Found foundryvtt-cli package: ${out.stdout}`);
 			return out.stdout.trim();
 		})
 		.catch(() => "");
 	if (installedPath) return installedPath;
-	if (tried) throw new Error("Failed to install classic-level");
+	if (tried) throw new Error("Failed to install foundryvtt-cli");
 
-	info("Installing classic-level");
-	await exec("npm", ["install", "-g", "classic-level@2.0.0"]).catch((err) => {
-		error("Error installing classic-level");
+	info("Installing foundryvtt-cli");
+	await exec("npm", ["install", "-g", "@foundryvtt/foundryvtt-cli"]).catch((err) => {
+		error("Error installing foundryvtt-cli");
 		throw err;
 	});
 
 	return ensureClassicLevel(true);
 }
 
-export async function createDB({
-	inputdir,
-	packsdir,
-	packNeDB,
-	packClassicLevel,
-	ClassicLevel,
-}: {
-	inputdir: string;
-	packsdir: string;
-	packNeDB: boolean;
-	packClassicLevel: boolean;
-	ClassicLevel?: typeof import("classic-level").ClassicLevel;
-}) {
-	return readdir(inputdir)
-		.then(async (dir) => {
-			for (const subdir of dir) {
-				if (statSync(`${inputdir}/${subdir}`).isDirectory()) {
-					if (packClassicLevel && ClassicLevel)
-						await Package.packClassicLevel(`${packsdir}/${subdir}`, `${inputdir}/${subdir}`, ClassicLevel)
-							.then(() => {
-								info(`Packed ${subdir} as a classic LevelDB`);
-							})
-							.catch((err) => {
-								error(`Error packing ${subdir} as a classic LevelDB`);
-								throw err;
-							});
-					else if (packClassicLevel) error("Told to pack classic level, but ClassicLevel not provided");
-					if (packNeDB)
-						await Package.packNedb(packsdir, `${inputdir}/${subdir}`, subdir)
-							.then(() => {
-								info(`Packed ${subdir} as a NeDB`);
-							})
-							.catch((err) => {
-								error(`Error packing ${subdir} as a NeDB`);
-								throw err;
-							});
-				}
-			}
-		})
-		.catch((err) => {
-			error("Error reading input directory");
-			throw err;
-		});
+export async function remove(inputdir: string): Promise<void> {
+	await exec("rm", ["-rf", inputdir]);
 }

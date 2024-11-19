@@ -1,7 +1,7 @@
 import { getBooleanInput, getInput, setFailed } from "@actions/core";
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
-import { createDB, ensureClassicLevel } from "./utils.js";
+import { ensureClassicLevel, remove } from "./utils.js";
 
 try {
 	const inputDirInput = getInput("inputdir");
@@ -14,23 +14,20 @@ try {
 	const packsdir = resolve(process.cwd(), packsInput);
 	if (!existsSync(packsdir)) throw new Error(`Packs directory ${packsdir} does not exist`);
 
-	const packNeDB = getBooleanInput("pack_nedb");
-	const packClassicLevel = getBooleanInput("pack_classiclevel");
+	const remove_input = getBooleanInput("remove_input");
 
-	let ClassicLevel: typeof import("classic-level").ClassicLevel | undefined;
-	if (packClassicLevel) {
-		const classicLevelPath = await ensureClassicLevel();
-		const module = await import(`${classicLevelPath}/index.js`);
-		ClassicLevel = module.ClassicLevel;
-	}
+	const path = await ensureClassicLevel();
 
-	await createDB({
+	const { compilePack } = await import(`${path}/index.mjs`);
+
+	await compilePack(
 		inputdir,
-		packsdir,
-		packNeDB,
-		packClassicLevel,
-		ClassicLevel,
+		packsdir, {
+		log: true,
+		recursive: true,
 	});
+
+	if (remove_input) await remove(`${inputdir}/_source`);
 } catch (error) {
 	if (error instanceof Error) setFailed(error.message);
 	else setFailed("Unknown error");
