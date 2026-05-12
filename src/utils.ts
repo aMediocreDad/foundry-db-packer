@@ -1,15 +1,10 @@
-import path from "node:path";
+import { rm } from "node:fs/promises";
 import { error, info } from "@actions/core";
 import { exec, getExecOutput } from "@actions/exec";
-// @ts-expect-error - No types available
-import { compilePack } from "@foundryvtt/foundryvtt-cli";
 
+const FVTT_CLI_VERSION = "3.0.3";
 
-export function normalizePath(pathToNormalize: string): string {
-	return path.normalize(pathToNormalize).split(path.sep).join(path.posix.sep);
-}
-
-export async function ensureClassicLevel(tried = false): Promise<string> {
+export async function ensureFVTTCli(tried = false): Promise<string> {
 	const installedPath = await getExecOutput("npm", ["ls", "-g", "--parseable", "@foundryvtt/foundryvtt-cli"], {
 		silent: true,
 	})
@@ -21,17 +16,17 @@ export async function ensureClassicLevel(tried = false): Promise<string> {
 		})
 		.catch(() => "");
 	if (installedPath) return installedPath;
-	if (tried) throw new Error("Failed to install foundryvtt-cli");
+	if (tried) throw new Error("Failed to install @foundryvtt/foundryvtt-cli");
 
-	info("Installing foundryvtt-cli");
-	await exec("npm", ["install", "-g", "@foundryvtt/foundryvtt-cli"]).catch((err) => {
-		error("Error installing foundryvtt-cli");
+	info(`Installing @foundryvtt/foundryvtt-cli@${FVTT_CLI_VERSION}`);
+	await exec("npm", ["install", "-g", `@foundryvtt/foundryvtt-cli@${FVTT_CLI_VERSION}`]).catch((err) => {
+		error("Error installing @foundryvtt/foundryvtt-cli");
 		throw err;
 	});
 
-	return ensureClassicLevel(true);
+	return ensureFVTTCli(true);
 }
 
 export async function remove(inputdir: string): Promise<void> {
-	await exec("rm", ["-rf", inputdir]);
+	await rm(inputdir, { recursive: true, force: true });
 }

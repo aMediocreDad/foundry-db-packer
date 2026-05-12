@@ -16,7 +16,9 @@
 		"type": "git",
 		"url": "git+https://github.com/amediocredad/foundry-db-packer.git"
 	},
-	"keywords": ["github action"],
+	"keywords": [
+		"github action"
+	],
 	"author": "@aMediocreDad | Filip Ambrosius",
 	"license": "MIT",
 	"bugs": {
@@ -29,7 +31,7 @@
 	},
 	"devDependencies": {
 		"@changesets/cli": "2.27.9",
-		"@foundryvtt/foundryvtt-cli": "^1.0.3",
+		"@foundryvtt/foundryvtt-cli": "3.0.3",
 		"@types/js-yaml": "4.0.9",
 		"@types/node": "22.9.1",
 		"builtin-modules": "4.0.0",

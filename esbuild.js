@@ -9,7 +9,7 @@ build({
 	bundle: true,
 	outfile: "dist/index.js",
 	platform: "node",
-	target: "node20",
+	target: "node24",
 	external: [
 		"node:path",
 		"node:fs",
