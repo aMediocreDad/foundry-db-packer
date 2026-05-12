@@ -1,0 +1,70 @@
+{
+	"name": "Effected Item",
+	"type": "base",
+	"folder": null,
+	"img": "icons/svg/aura.svg",
+	"system": {
+		"groups": {},
+		"attributes": {},
+		"quantity": null,
+		"weight": null
+	},
+	"effects": [
+		{
+			"name": "Test Effect",
+			"img": "icons/svg/aura.svg",
+			"changes": [
+				{
+					"key": "system.attributes.power",
+					"mode": 2,
+					"value": "5",
+					"priority": 20
+				}
+			],
+			"disabled": false,
+			"duration": {
+				"startTime": null,
+				"seconds": null,
+				"combat": null,
+				"rounds": null,
+				"turns": null,
+				"startRound": null,
+				"startTurn": null
+			},
+			"description": "",
+			"origin": null,
+			"tint": "#ffffff",
+			"transfer": true,
+			"statuses": [],
+			"flags": {},
+			"_id": "eEFFECT00000001",
+			"_stats": {
+				"systemId": "worldbuilding",
+				"systemVersion": "0.8.0",
+				"coreVersion": "11.299",
+				"createdTime": 1685056063815,
+				"modifiedTime": 1685056099332,
+				"lastModifiedBy": "iCyBZJPuowWIkGSH"
+			},
+			"_key": "!items.effects!aEFFECT0000Item01.eEFFECT00000001"
+		}
+	],
+	"ownership": {
+		"default": 0,
+		"iCyBZJPuowWIkGSH": 3
+	},
+	"flags": {
+		"core": {}
+	},
+	"_stats": {
+		"systemId": "worldbuilding",
+		"systemVersion": "0.8.0",
+		"coreVersion": "11.299",
+		"createdTime": 1685056063815,
+		"modifiedTime": 1685056099332,
+		"lastModifiedBy": "iCyBZJPuowWIkGSH"
+	},
+	"_id": "aEFFECT0000Item01",
+	"sort": 0,
+	"_key": "!items!aEFFECT0000Item01"
+}

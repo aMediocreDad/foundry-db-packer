@@ -1,72 +1,67 @@
 import { exec } from "@actions/exec";
 import { existsSync } from "node:fs";
-import { readFile, rm } from "node:fs/promises";
+import { readdir, readFile, rm } from "node:fs/promises";
+import path from "node:path";
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
+// @ts-expect-error - No types available
+import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
 
-import { Package } from "../src/package.js";
 import * as utils from "../src/utils.js";
 
 const jsonDir = new URL("../__fixtures__/dummy-json", import.meta.url).pathname;
-const moduleDir = new URL("../__fixtures__/test-module/packs", import.meta.url).pathname;
+const moduleDir = new URL("../__fixtures__/test-module/packs/test", import.meta.url).pathname;
+const extractDir = new URL("../__fixtures__/test-module/packs/test-extracted", import.meta.url).pathname;
 
 afterAll(async () => {
-	if (existsSync(`${moduleDir}/test`)) await rm(`${moduleDir}/test`, { recursive: true });
-	if (existsSync(`${moduleDir}/test.db`)) await rm(`${moduleDir}/test.db`);
+	if (existsSync(moduleDir)) await rm(moduleDir, { recursive: true });
+	if (existsSync(extractDir)) await rm(extractDir, { recursive: true });
+});
+
+describe("Utils:ensureFVTTCli", () => {
+	it("should ensure @foundryvtt/foundryvtt-cli is installed", async () => {
+		await utils.ensureFVTTCli();
+		expect(await exec("npm", ["ls", "-g", "@foundryvtt/foundryvtt-cli"])).toBe(0);
+	});
 });
 
 describe("Package", () => {
 	beforeEach(async () => {
-		if (existsSync(`${moduleDir}/test`)) await rm(`${moduleDir}/test`, { recursive: true });
-		if (existsSync(`${moduleDir}/test.db`)) await rm(`${moduleDir}/test.db`);
+		if (existsSync(moduleDir)) await rm(moduleDir, { recursive: true });
+		if (existsSync(extractDir)) await rm(extractDir, { recursive: true });
 	});
 
 	it("should produce a valid Classic levelDB structure", async () => {
-		const module = await import((await utils.ensureClassicLevel()) + "/index.js");
-		const ClassicLevel = module.ClassicLevel;
-		await Package.packClassicLevel(moduleDir + "/test", jsonDir + "/test", ClassicLevel);
-		expect(existsSync(`${moduleDir}/test/LOCK`)).toBe(true);
-	});
-
-	it("should produce a valid nedb database file", async () => {
-		await Package.packNedb(moduleDir, jsonDir + "/test", "test");
-		expect(existsSync(`${moduleDir}/test.db`)).toBe(true);
-
-		const dbFile = await readFile(`${moduleDir}/test.db`, "utf8");
-		expect(dbFile).toMatch(/_id":"JZbNhxKEWMarDvp9"/);
-	});
-});
-
-describe("Utils:ensureClassicLevel", () => {
-	it("should ensure classic-level is installed", async () => {
-		await utils.ensureClassicLevel();
-		expect(await exec("npm", ["ls", "-g", "classic-level"])).toBe(0);
-	});
-});
-
-describe("Utils:createDB", () => {
-	beforeEach(async () => {
-		if (existsSync(`${moduleDir}/test`)) await rm(`${moduleDir}/test`, { recursive: true });
-		if (existsSync(`${moduleDir}/test.db`)) await rm(`${moduleDir}/test.db`);
-	});
-
-	it("should pack a directory of JSON files into a Classic LevelDB", async () => {
-		await utils.createDB({
-			inputdir: jsonDir,
-			packsdir: moduleDir,
-			packNeDB: false,
-			packClassicLevel: true,
-			ClassicLevel: (await import((await utils.ensureClassicLevel()) + "/index.js")).ClassicLevel,
+		await compilePack(jsonDir, moduleDir, {
+			log: false,
+			recursive: true,
 		});
-		expect(existsSync(`${moduleDir}/test/LOCK`)).toBe(true);
+		expect(existsSync(`${moduleDir}/LOCK`)).toBe(true);
 	});
 
-	it("should pack a directory of JSON files into a NeDB", async () => {
-		await utils.createDB({
-			inputdir: jsonDir,
-			packsdir: moduleDir,
-			packNeDB: true,
-			packClassicLevel: false,
+	// Regression: https://github.com/aMediocreDad/foundry-db-packer/issues/11
+	// The previously bundled compilePack predated the HIERARCHY/applyHierarchy logic
+	// in @foundryvtt/foundryvtt-cli, so embedded ActiveEffects on items were silently
+	// dropped: the standalone `!items.effects!{itemId}.{effectId}` entry was never
+	// written to the LevelDB. Round-tripping via extractPack proves the effect entry
+	// exists in the produced pack — extract fails or yields empty `effects` otherwise.
+	it("preserves embedded ActiveEffects on items", async () => {
+		await compilePack(jsonDir, moduleDir, {
+			log: false,
+			recursive: true,
 		});
-		expect(existsSync(`${moduleDir}/test.db`)).toBe(true);
+
+		await extractPack(moduleDir, extractDir, {
+			log: false,
+			documentType: "Item",
+		});
+
+		const files = await readdir(extractDir);
+		const itemFile = files.find((f) => f.includes("aEFFECT0000Item01"));
+		expect(itemFile, "extracted item file with embedded effect should exist").toBeTruthy();
+
+		const item = JSON.parse(await readFile(path.join(extractDir, itemFile!), "utf8"));
+		expect(item.effects).toHaveLength(1);
+		expect(item.effects[0]._id).toBe("eEFFECT00000001");
+		expect(item.effects[0].name).toBe("Test Effect");
 	});
 });
