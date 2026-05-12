@@ -1,6 +1,6 @@
 import { exec, getExecOutput } from "@actions/exec";
 
-import rootConfig from "../package.json" assert { type: "json" };
+import rootConfig from '../package.json' with { type: 'json' };
 
 const { version } = rootConfig;
 const tag = `v${version}`;
