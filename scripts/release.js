@@ -29,7 +29,7 @@ await exec("git", ["checkout", "--detach"]);
 await exec("git", ["add", "--force", "dist"]);
 await exec("git", ["commit", "-m", tag]);
 
-await exec("changeset", ["tag"]);
+await exec("git", ["tag", tag]);
 
 await exec("git", [
 	"push",
